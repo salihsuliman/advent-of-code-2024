@@ -4,18 +4,19 @@ const sortArraysAndFindDifference = (
   leftSide: number[],
   rightSide: number[]
 ) => {
-  leftSide.sort((a, b) => a - b);
-  rightSide.sort((a, b) => a - b);
+  const multipleArray: number[] = [];
 
-  let counter = 0;
+  leftSide.forEach((left) => {
+    const filteredArray = rightSide.filter((right) => left === right);
+
+    multipleArray.push(filteredArray.length);
+  });
+
   let finalAmount = 0;
+  let counter = 0;
 
   while (counter < leftSide.length) {
-    if (leftSide[counter] < rightSide[counter]) {
-      finalAmount += rightSide[counter] - leftSide[counter];
-    } else {
-      finalAmount += leftSide[counter] - rightSide[counter];
-    }
+    finalAmount += leftSide[counter] * multipleArray[counter];
 
     counter++;
   }
