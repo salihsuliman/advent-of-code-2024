@@ -9,7 +9,7 @@ const lines = fs
 
 const right = (i: number, j: number) => {
   try {
-    return lines[i][j] + lines[i][j + 1] + lines[i][j + 2] + lines[i][j + 3];
+    return lines[i][j] + lines[i][j + 2];
   } catch {
     return "";
   }
@@ -17,7 +17,7 @@ const right = (i: number, j: number) => {
 
 const down = (i: number, j: number) => {
   try {
-    return lines[i][j] + lines[i + 1][j] + lines[i + 2][j] + lines[i + 3][j];
+    return lines[i][j] + lines[i + 2][j];
   } catch {
     return "";
   }
@@ -25,25 +25,7 @@ const down = (i: number, j: number) => {
 
 const bottomRight = (i: number, j: number) => {
   try {
-    return (
-      lines[i][j] +
-      lines[i + 1][j + 1] +
-      lines[i + 2][j + 2] +
-      lines[i + 3][j + 3]
-    );
-  } catch {
-    return "";
-  }
-};
-
-const topRight = (i: number, j: number) => {
-  try {
-    return (
-      lines[i][j] +
-      lines[i - 1][j + 1] +
-      lines[i - 2][j + 2] +
-      lines[i - 3][j + 3]
-    );
+    return lines[i][j] + lines[i + 1][j + 1] + lines[i + 2][j + 2];
   } catch {
     return "";
   }
@@ -54,14 +36,25 @@ const returnTotalXmas = () => {
 
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines.length; j++) {
-      right(i, j) === "XMAS" && totalXmas++;
-      right(i, j) === "SAMX" && totalXmas++;
-      down(i, j) === "XMAS" && totalXmas++;
-      down(i, j) === "SAMX" && totalXmas++;
-      bottomRight(i, j) === "SAMX" && totalXmas++;
-      bottomRight(i, j) === "XMAS" && totalXmas++;
-      topRight(i, j) === "SAMX" && totalXmas++;
-      topRight(i, j) === "XMAS" && totalXmas++;
+      right(i, j) === "MS" &&
+        bottomRight(i, j) === "MAS" &&
+        down(i, j) === "MM" &&
+        totalXmas++;
+
+      right(i, j) === "MM" &&
+        bottomRight(i, j) === "MAS" &&
+        down(i, j) === "MS" &&
+        totalXmas++;
+
+      right(i, j) === "SM" &&
+        bottomRight(i, j) === "SAM" &&
+        down(i, j) === "SS" &&
+        totalXmas++;
+
+      right(i, j) === "SS" &&
+        bottomRight(i, j) === "SAM" &&
+        down(i, j) === "SM" &&
+        totalXmas++;
     }
   }
 
