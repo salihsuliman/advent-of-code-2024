@@ -28,6 +28,29 @@ const isUpdateCorrectlyOrdered = (
   return true;
 };
 
+const correctArray = (update: string[], rules: string[][]): string[] => {
+  let hasSwapped = true;
+
+  // Continue processing until no swaps are required
+  while (hasSwapped) {
+    hasSwapped = false;
+
+    for (const [x, y] of rules) {
+      const xIndex = update.indexOf(x);
+      const yIndex = update.indexOf(y);
+
+      // If both X and Y are in the update, and X appears after Y, swap them
+      if (xIndex !== -1 && yIndex !== -1 && xIndex > yIndex) {
+        // Swap the two elements
+        [update[xIndex], update[yIndex]] = [update[yIndex], update[xIndex]];
+        hasSwapped = true; // Mark that a swap occurred
+      }
+    }
+  }
+
+  return update;
+};
+
 const getMiddleNumber = (update: string[]): number => {
   const middleIndex = Math.floor(update.length / 2);
   return parseInt(update[middleIndex], 10);
@@ -37,8 +60,11 @@ const getMiddleNumber = (update: string[]): number => {
 let totalMiddleSum = 0;
 
 for (const update of updates) {
-  if (isUpdateCorrectlyOrdered(update, rules)) {
-    totalMiddleSum += getMiddleNumber(update);
+  if (!isUpdateCorrectlyOrdered(update, rules)) {
+    const array = correctArray(update, rules);
+    if (isUpdateCorrectlyOrdered(array, rules)) {
+      totalMiddleSum += getMiddleNumber(update);
+    }
   }
 }
 
